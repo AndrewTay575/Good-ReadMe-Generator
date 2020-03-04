@@ -4,7 +4,7 @@ const fs = require("fs");
 const axios = require("axios");
 const genMarkdown = require("./utils/generateMarkdown");
 const writeFileAsync = util.promisify(fs.writeFile);
-
+// const api = require("./utils/api");
 
 const questions = [
     {
@@ -38,7 +38,7 @@ const questions = [
     },
     {
         type: "input",
-        message: "Enter any info that a user will need to usew your repo:",
+        message: "Enter any info that a user will need to use your repo:",
         name: "usage",
         default: "Usage"
     },
@@ -59,7 +59,7 @@ const questions = [
 
 function writeToFile(fileName, data) {
     writeFileAsync(fileName, data).then(function (){
-        console.log("RADME file successfully created!");
+        console.log("README file successfully created!");
 
     })
         .catch(err => {
@@ -71,9 +71,9 @@ function init() {
     inquirer.prompt(questions)
         .then(response => {
 
-            const queryURL = "https://api.github.com/users/${response.github}";
+            const queryURL = `https://api.github.com/users/${response.username}`;
             axios.get(queryURL)
-                .then(res => {
+                .then(response => {
                     const data = {
                     username: response.username,
                     title: response.title,
@@ -85,8 +85,8 @@ function init() {
                     license: response.license,
                     contributing: response.contributing,
                 }
-                const readmeContent = generateMarkdown(data);
-                writeToFile("README-test.md", readmeContent);
+                const readmeContent = genMarkdown(data);
+                writeToFile("GeneratedREADME.md", readmeContent);
             })
             .catch(err => {
                 if (err) throw Error;
