@@ -17,6 +17,12 @@ const questions = [
         name: "title",
         default: "Title"
     },
+    // {
+    //     type: "input",
+    //     message: "Enter your email:",
+    //     name: "email",
+    //     default: "andytaylot575@gmail.com"
+    // },
     {
         type: "input",
         message: "Enter a description of your project:",

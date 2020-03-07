@@ -4,11 +4,11 @@ function generateMarkdown(data) {
 # Description
 ${data.description}
 # Table of Contents
-*[Installation](#installation)
-*[Tests](#tests)
-*[Usage](#usage)
-*[Contributing](#contributing)
-*[License](#license)
+[Installation](#installation)<br />
+[Tests](#tests)<br />
+[Usage](#usage)<br />
+[Contributing](#contributing)<br />
+[License](#license)<br />
 # Installation
 Run this Snippet to run Dependencies
 # Tests
@@ -22,8 +22,10 @@ ${data.contributing}
 # License <br />
 ${data.license}
 # Questions
-Any questions can be directed to me at [Email]${data.email}
+Any questions can be directed to me at andytaylor575@gmail.com
+<br />
 <img src = "${data.avatar_url}" alt = "Github Avatar" style = "border-radius: 50px"/>
+<br />
 ![](https://img.shields.io/badge/License-${data.license}-important)
 `;
 }
