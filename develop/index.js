@@ -1,10 +1,8 @@
 const inquirer = require("inquirer");
-const util = require("util");
+const path = require("path");
 const fs = require("fs");
-const axios = require("axios");
-const genMarkdown = require("./utils/generateMarkdown");
-const writeFileAsync = util.promisify(fs.writeFile);
-// const api = require("./utils/api");
+const generateMarkdown = require("./utils/generateMarkdown");
+const api = require("./utils/api");
 
 const questions = [
     {
@@ -58,45 +56,19 @@ const questions = [
 ];
 
 function writeToFile(fileName, data) {
-    writeFileAsync(fileName, data).then(function (){
-        console.log("README file successfully created!");
-
-    })
-        .catch(err => {
-            console.log(err);
-        })
+    return fs.writeFileSync(path.join(process.cwd(), fileName), data)
+        
 };
 
 function init() {
     inquirer.prompt(questions)
         .then(response => {
-
-            const queryURL = `https://api.github.com/users/${response.username}`;
-            axios.get(queryURL)
-                .then(response => {
-                    const data = {
-                    username: response.username,
-                    title: response.title,
-                    description: response.description,
-                    tableOfContents: response.tableOfContents,
-                    installation: response.installation,
-                    usage: response.usage,
-                    tests: response.tests,
-                    license: response.license,
-                    contributing: response.contributing,
-                }
-                const readmeContent = genMarkdown(data);
-                writeToFile("GeneratedREADME.md", readmeContent);
+            api.getUser(response.github)
+            .then(({data}) => {
+                writeToFile("README.MD", generateMarkdown({...response,...data}))
             })
-            .catch(err => {
-                if (err) throw Error;
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            
-
         })
+            
 
 }
 

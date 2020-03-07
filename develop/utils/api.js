@@ -1,11 +1,8 @@
+const  axios = require("axios");
+
 const api = {
   getUser(username) {
-    inquirer
-  .prompt({
-    message: "Enter your GitHub username:",
-    name: "username"
-  })
-
+    return axios.get(`https://api.github.com/users/${username}`)
   }
 };
 
